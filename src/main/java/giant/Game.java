@@ -4,24 +4,17 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 
 public class Game extends PApplet {
+    Circle circle;
+
     int x = 0;
     int y = 0;
     int d = 900;
     int r = d / 2;
 
-    int[][] table = new int[8][3];
-
     public void settings() {
         size(1000, 1000);
 
-        table[0] = new int[] { 0, 8, 16 };
-        table[1] = new int[] { 1, 9, 17 };
-        table[2] = new int[] { 2, 10, 18 };
-        table[3] = new int[] { 3, 11, 19 };
-        table[4] = new int[] { 4, 12, 20 };
-        table[5] = new int[] { 5, 13, 21 };
-        table[6] = new int[] { 6, 14, 22 };
-        table[7] = new int[] { 7, 15, 23 };
+        circle = new CircleMini();
     }
 
     public void draw() {
@@ -61,9 +54,10 @@ public class Game extends PApplet {
         textSize(30);
         textAlign(PConstants.CENTER, PConstants.CENTER);
         for (int i = 0; i < 8; i++) {
-            text(table[slice][0], (8 * r / deno) * cos(radians(angle)), (8 * r / deno) * sin(radians(angle)));
-            text(table[slice][1], (5 * r / deno) * cos(radians(angle)), (5 * r / deno) * sin(radians(angle)));
-            text(table[slice][2], (2.20f * r / deno) * cos(radians(angle)), (2.20f * r / deno) * sin(radians(angle)));
+            text(circle.table[slice][0], (8 * r / deno) * cos(radians(angle)), (8 * r / deno) * sin(radians(angle)));
+            text(circle.table[slice][1], (5 * r / deno) * cos(radians(angle)), (5 * r / deno) * sin(radians(angle)));
+            text(circle.table[slice][2], (2.20f * r / deno) * cos(radians(angle)),
+                    (2.20f * r / deno) * sin(radians(angle)));
 
             slice++;
             angle = angle + 45;
