@@ -12,7 +12,7 @@ public class Game extends PApplet {
     }
 
     public void draw() {
-        translate(500, 500);
+        translate(width / 2, height / 2);
 
         circle.draw(this);
     }

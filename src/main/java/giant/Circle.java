@@ -44,50 +44,57 @@ public abstract class Circle {
         }
     }
 
-    int d = 900;
-    int r = d / 2;
+    private int d = 900;
+    private int r = d / 2;
 
     public void draw(Game game) {
         game.background(220);
         game.fill(220);
 
+        drawCircles(game);
+
+        drawLines(game);
+
+        drawIndexes(game);
+    }
+
+    private void drawCircles(Game game) {
         game.strokeWeight(8);
         game.stroke(0, 49, 75);
+        for (int m = 0; m < rings; m++) {
+            float radius = r - m * r / rings;
+            game.circle(0, 0, radius * 2);
+        }
+    }
 
-        game.circle(0, 0, d); // M=0
-        game.circle(0, 0, d * 4 / 6); // M=1
-        game.circle(0, 0, d * 2 / 6); // M=2
-
-        game.fill(0, 49, 75);
-        game.circle(0, 0, 10); // Center
-
-        // Slices
+    private void drawLines(Game game) {
         game.strokeWeight(6);
-
         float angle = 0;
-        game.line(r * cos(angle), r * sin(angle), -r * cos(angle), -r * sin(angle));
-        angle = 45;
-        game.line(r * cos(angle), r * sin(angle), -r * cos(angle), -r * sin(angle));
-        angle = 90;
-        game.line(r * cos(angle), r * sin(angle), -r * cos(angle), -r * sin(angle));
-        angle = 135;
-        game.line(r * cos(angle), r * sin(angle), -r * cos(angle), -r * sin(angle));
+        float delta = 360f / slices;
+        for (int n = 0; n < slices / 2; n++) {
+            game.line(r * cos(angle), r * sin(angle), -r * cos(angle), -r * sin(angle));
+            angle += delta;
+        }
+    }
 
-        // Points
-        angle = 45 / 2;
-        int deno = 9;
+    private void drawIndexes(Game game) {
+        game.textSize(30);
         game.fill(0, 49, 75);
+        game.textAlign(PConstants.CENTER, PConstants.CENTER);
 
         int slice = 0;
-        game.textSize(30);
-        game.textAlign(PConstants.CENTER, PConstants.CENTER);
-        for (int i = 0; i < 8; i++) {
-            game.text(game.circle.table[slice][0], (8 * r / deno) * cos(angle), (8 * r / deno) * sin(angle));
-            game.text(game.circle.table[slice][1], (5 * r / deno) * cos(angle), (5 * r / deno) * sin(angle));
-            game.text(game.circle.table[slice][2], (2.20f * r / deno) * cos(angle), (2.20f * r / deno) * sin(angle));
+        int deno = 3 * rings;
+        float angle = 180f / slices;
+        float delta = 360f / slices;
 
+        for (int i = 0; i < slices; i++) {
+            int off = deno - 1;
+            for (int j = 0; j < rings; j++) {
+                game.text(table[slice][j], (off * r / deno) * cos(angle), (off * r / deno) * sin(angle));
+                off -= 3;
+            }
             slice++;
-            angle = angle + 45;
+            angle += delta;
         }
     }
 
